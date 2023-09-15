@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{titling}
+\usepackage{minted}
 
 % Page size and margins
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
@@ -74,14 +75,78 @@
 \section{PyCalc challenge}
 
 \subsection{Summary}
+After connecting to \texttt{10.9.8.1:5006}, the calculator program welcomes the user suggesting to type \texttt{help} to display all the available commands. The possible ones are the following:
+\begin{itemize}
+    \item{The first, \texttt{echo}, prints out the argument inserted by the user to standard output. For instance, typing \texttt{echo hello} would print \texttt{hello} back to the user.}
+    \item{The second one, \texttt{op}, evaluates a simple function. The result of typing \texttt{op 3+1} would therefore be seeing \texttt{4} printed out.}
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{pycalc/pycalc intro.png}
+    \caption{PyCalc operations}
+    \label{fig:PyCalc intro}
+\end{figure}
+The \texttt{op} command calculates the sum and other equations using a vulnerable Python function, called \texttt{eval()}. In general, it evaluates and executes any specified expression, if it is a legal Python statement. The problem is that accepting untrusted input to \texttt{eval()} can allow for arbitrary code execution by malicious users.\\
+Writing
+\begin{minted}{shell}
+    op __import__('subprocess').getoutput('ls')
+\end{minted}
+reveals the list of all the directories and files present in the directory in which the calculator program is running.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{pycalc/pycalc directories.png}
+    \caption{List of files and directories}
+    \label{fig:PyCalc directories}
+\end{figure}
+It is possible to notice that there is also a text file called \texttt{flag.txt}. Analogously, in order to show its content it is sufficient to write
+\begin{minted}{shell}
+    op __import__('subprocess').getoutput('cat flag.txt')
+\end{minted}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{pycalc/pycalc flag.png}
+    \caption{Flag}
+    \label{fig:PyCalc flag}
+\end{figure}
+
 
 \subsection{Steps to reproduce}
+The steps to reproduce are the following:
+\begin{itemize}
+    \item[1.] Connect to \texttt{10.9.8.1:5006}
+    \item[2.] Display the content of the current directory writing
+    \begin{minted}{shell}
+    op __import__('subprocess').getoutput('ls')
+    \end{minted}
+    \item[3.] Get the flag printing the content in the \texttt{flag.txt} file
+    \begin{minted}{shell}
+    op __import__('subprocess').getoutput('cat flag.txt')
+    \end{minted}
+\end{itemize}
 
 \subsection{Impact}
+Using the \texttt{eval()} function to evaluate the arithmetic expressions of a calculator unnecessarily exposes the program to significant risks.
+An attacker could use this function's vulnerabilities to view any file in the directory, modify or delete them, move among the directories, etc.
+Generally speaking, they can have their own arbitrary code running under the current user privileges.
 
 \subsection{Timing}
+It took me some hours to identify the weakness and how to exploit it writing the Python code in a compact way, but it appears that it can be fixed quickly – possibly within 60 days.
 
 % GHIDRA BINARY ANALYSIS
 \section{Ghidra binary analysis}
+After opening the file with Ghidra and decompiling it, I located the \texttt{main} function.
+
+It is possible to see that the function acquires user input through \texttt{fgets} and stores it in \texttt{local\_28} variable. It then displays it back to the user with a \texttt{printf}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{ghidra.png}
+    \caption{Decompiled main() function with Ghidra}
+    \label{fig:Ghidra}
+\end{figure}
+
+The vulnerability is in the fact that \texttt{printf} is not a safe function but is exposed to Format String attacks. An attacker could  insert malicious code in the input string, for instance use special characters like \texttt{\%x} to print contents of the stack.
+
+It could be avoided using other functions like \texttt{puts}.
 
 \end{document}
