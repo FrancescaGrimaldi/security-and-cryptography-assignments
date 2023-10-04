@@ -1,0 +1,145 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+\usepackage{minted}
+
+% Page size and margins
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+% Header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % empties all fields
+\fancyhead[R]{Francesca Grimaldi}
+\fancyhead[L]{Exercise 4}
+
+% Images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{float}
+
+% Tables
+\usepackage{tabu}
+\usepackage{caption} 
+\captionsetup[table]{skip=2pt}
+\usepackage[table]{xcolor}
+\usepackage{array}
+
+% Lists
+\usepackage{listings}
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
+
+
+% renew/new command
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}
+}
+
+% Title and info
+\title{%
+    % \vspace{4cm}
+    \huge Assignment 4}
+
+\subtitle{%
+    IDATT2503 - Security in programming and cryptography \\
+    Fall 2023 \\
+    }
+
+\author{%
+  Francesca Grimaldi\\
+}
+
+\date{}
+
+
+\begin{document}
+
+% TITLE
+\maketitle
+
+
+% SECTION
+\section{Task 1}
+
+\subsection{Modifications}
+
+First of all, I changed the message from \texttt{Hello World!} to \texttt{Hello World from Trondheim!}. I updated the length of the message and set the counter to \texttt{3}, instead of \texttt{10}.
+In order to write the message to standard error, I modified the file descriptor from \texttt{1} (standard output) to \texttt{2} (standard error).
+I then modified the line of code before the \texttt{syscall} to return an error code (\texttt{1}).
+
+\subsection{Verification}
+To test whether the program actually writes to standard error instead of standard output, I ran the following commands
+\begin{minted}{shell}
+    ./hello 1> hello_stdout.txt
+    ./hello 2> hello_stderr.txt
+\end{minted}
+and checked the output to make sure that the \texttt{stdout} file was empty, whereas the \texttt{stderr} file contained the 3 sentences.\\
+To verify the return of the error code, after the execution of the program I ran the command
+\begin{minted}{shell}
+    echo $?
+\end{minted}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/error-code.jpg}
+    \caption{Error code in Task 1}
+    \label{fig:Error code}
+\end{figure}
+
+\section{Task 2}
+The outputs of the three programs written respectively in C, C\texttt{++} and Rust, are the following:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/task2-c.png}
+    \caption{Output of C program}
+    \label{fig:Task 2 C}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/task2-cpp.png}
+    \caption{Output of C\texttt{++} program}
+    \label{fig:Task 2 C++}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/task2-rust.png}
+    \caption{Output of Rust program}
+    \label{fig:Task 2 Rust}
+\end{figure}
+
+\section{Task 3}
+After creating the dynamic library and linking it to the executable file, this is the output:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/task3-output_before.png}
+    \caption{Output with spelling error}
+    \label{fig:Task 3 before}
+\end{figure}
+
+It is clear that there is a spelling error in the function named \texttt{another\_function} ("\texttt{caled}").
+Fixing it and updating the dynamic library produces the following result when running \texttt{c\_example} again:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/task3-output_after.png}
+    \caption{Output with fixed typo}
+    \label{fig:Task 3 after}
+\end{figure}
+
+To see the changes, there is no need to recompile \texttt{c\_example}.
+
+\end{document}
