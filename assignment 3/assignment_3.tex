@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+
+% Page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+% Header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % empties all fields
+\fancyhead[R]{Peron, Grimaldi, Aune}
+\fancyhead[L]{Exercise 3}
+
+% Images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{float}
+
+% Lists
+\usepackage{listings}
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
+
+% renew/new command
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}
+}
+
+% Title and info
+\title{%
+    % \vspace{4cm}
+    \huge Assignment 3}
+
+\subtitle{%
+    IDATT2503 - Security in programming and cryptography \\
+    Fall 2023 \\
+    }
+
+\author{%
+  Philipp Peron, Francesca Grimaldi, Landon Aune\\
+}
+
+\date{}
+
+
+\begin{document}
+
+% TITLE
+\maketitle
+
+
+% INDEX
+% \tableofcontents
+
+
+% Technical Details
+\section{Technical Details}
+The JPEG Image format can be viewed in its hex representation, and ends with the delimiter FF D9.
+Modifying any values between the start and end delimiter would affect the image content, but values can be added after the delimiter and still be saved without affecting the image.
+
+This can be used to hide hex characters in a way that is fairly difficult to detect without thorough investigation.
+Combining this with hashing further increases the security of data.
+
+For this challenge, we decided to have each character individually using MD5 to introduce additional challenge. 
+
+% How to solve
+\section{How to solve}
+
+\begin{itemize}
+    \item[1.]For those who are not familiar with JPEG image format and its hex representation, the first thing would be to look up for some information and find that images start with a marker which always contains the hex values “FF D8 FF”, and end with the values “FF D9”
+    \item[2.]Using any hex viewer it is possible to see that other hex values have been added after the delimiter of our image: there is the “encrypted” flag
+    \item[3.]The command \texttt{hex meme.jpg >> hex.txt} allows to copy the hex representation in a text file, so that finding the delimiter and copying the other numbers is easier
+    \item[4.]Take the hex numbers where every character of the flag is hashed with a MD5 hash and copy them into Python for example
+    \item[5.]Brute force every character in the flag by trying out hashes for all characters
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{bruteforce.png}
+        \caption{Brute force example in Python}
+        \label{fig:bruteforce}
+    \end{figure}
+    
+\end{itemize}
+
+% Hints
+\section{Hints}
+
+\begin{itemize}
+    \item[1.]The delimiter for JPEG images is “FF D9”
+    \item[2.]The challenge has MD5 in its name
+    \item[3.]A MD5 hash is 32 characters long in hex
+\end{itemize}
+
+\end{document}
