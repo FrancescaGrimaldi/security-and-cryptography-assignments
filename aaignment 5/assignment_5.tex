@@ -1,0 +1,148 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+
+% Page size and margins
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{minted}
+
+% Header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % empties all fields
+\fancyhead[R]{Francesca Grimaldi}
+\fancyhead[L]{IDATT2503 - Exercise 5}
+
+% Images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{float}
+
+% Tables
+\usepackage{tabu}
+\usepackage{caption} 
+\captionsetup[table]{skip=2pt}
+\usepackage[table]{xcolor}
+\usepackage{array}
+
+% Lists
+\usepackage{listings}
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
+
+% renew/new command
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}
+}
+
+% Title and info
+\title{%
+    \huge Assignment 5}
+
+\subtitle{%
+    IDATT2503 - Security in programming and cryptography \\
+    Fall 2023
+    }
+
+\author{%
+  Francesca Grimaldi
+}
+
+\date{}
+
+
+\begin{document}
+
+% TITLE
+\maketitle
+
+
+% INDEX
+% \tableofcontents
+
+% FUZZING
+\section{Fuzzing}
+Following the instructions of the \href{https://gitlab.com/ntnu-tdat3020/fuzzing-example}{\texttt{fuzzing-example}}, I executed the following steps:
+\begin{itemize}
+    \item[1.]{Installed \texttt{cmake} and \texttt{clang} from terminal}
+    \item[2.]{Created a \texttt{build} directory inside that of my C project}
+    \item[3.]{Moved into the new build directory}
+    \item[4.]{Configured the build system for the project: set the C compiler to be Clang and ran the CMake build system}
+    \item[5.]{Compiled the source code and created executable files based on the \texttt{CMakeLists.txt} ones}
+    \item[6.]{Ran the fuzzer test with a time limit of 60 seconds}
+    \item[7.]{Ran the utility tests with assertions}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/initial-setup.png}
+    \caption{Initial setup}
+    \label{fig:initial-setup}
+\end{figure}
+
+The first fuzzing showed that there were memory leaks in the program.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/fuzzing-memory-leak1.png}
+    \caption{Fuzzing showing memory leaks (a)}
+    \label{fig:fuzzing-memory-leak1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/fuzzing-memory-leak2.png}
+    \caption{Fuzzing showing memory leaks (b)}
+    \label{fig:fuzzing-memory-leak2}
+\end{figure}
+
+After the bug fixes, the results are the following:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/fuzzing-after-fixes.png}
+    \caption{Fuzzing after fixes}
+    \label{fig:fuzzing-after-fixes}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/testing.png}
+    \caption{Running tests does not produce errors}
+    \label{fig:testing}
+\end{figure}
+
+% CONTINUOUS INTEGRATION SOLUTION
+\section{CI solution}
+To set up a Continuous Integration solution for fuzzing with address sanitizer, I used the GitHub Actions platform.
+
+For this, I created a repository with the project and a \texttt{.github/workflows} folder, in which I added the YAML file \texttt{ci-fuzzing.yml}. In this I defined the workflow, including the instructions necessary for the setup and those for the fuzzing and testing.
+
+After committing the above-mentioned file to the repository, it gives the following output:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/ci-fuzzing.png}
+    \caption{Fuzzing in the CI solution}
+    \label{fig:ci-fuzzing}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/ci-fuzzing2.png}
+    \caption{Final results in GitHub Actions}
+    \label{fig:ci-fuzzing2}
+\end{figure}
+
+
+\end{document}

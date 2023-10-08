@@ -3,7 +3,6 @@
 \usepackage{titling}
 
 % Page size and margins
-% Replace `letterpaper' with `a4paper' for UK/EU standard size
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 
 % Language setting
@@ -12,13 +11,14 @@
 % Useful packages
 \usepackage{amsmath}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{minted}
 
 % Header
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead{} % empties all fields
 \fancyhead[R]{Peron, Grimaldi, Aune}
-\fancyhead[L]{Exercise 3}
+\fancyhead[L]{IDATT2503 - Exercise 3}
 
 % Images
 \usepackage{graphicx}
@@ -65,7 +65,7 @@
 % \tableofcontents
 
 
-% Technical Details
+% TECHNICAL DETAILS
 \section{Technical Details}
 The JPEG Image format can be viewed in its hex representation, and ends with the delimiter FF D9.
 Modifying any values between the start and end delimiter would affect the image content, but values can be added after the delimiter and still be saved without affecting the image.
@@ -75,7 +75,7 @@ Combining this with hashing further increases the security of data.
 
 For this challenge, we decided to have each character individually using MD5 to introduce additional challenge. 
 
-% How to solve
+% HOW TO SOLVE
 \section{How to solve}
 
 \begin{itemize}
@@ -93,7 +93,7 @@ For this challenge, we decided to have each character individually using MD5 to 
     
 \end{itemize}
 
-% Hints
+% HINTS
 \section{Hints}
 
 \begin{itemize}

