@@ -1,0 +1,141 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+
+% Page size and margins
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{minted}
+
+% Header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % empties all fields
+\fancyhead[R]{Francesca Grimaldi}
+\fancyhead[L]{IDATT2503 - Exercise 6}
+
+% Images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{float}
+\usepackage{subcaption}
+
+% Tables
+\usepackage{tabu}
+\usepackage{caption} 
+\captionsetup[table]{skip=2pt}
+\usepackage[table]{xcolor}
+\usepackage{array}
+
+% Lists
+\usepackage{listings}
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
+
+% renew/new command
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}
+}
+
+% Title and info
+\title{%
+    \huge Assignment 6}
+
+\subtitle{%
+    IDATT2503 - Security in programming and cryptography \\
+    Fall 2023
+    }
+
+\author{%
+  Francesca Grimaldi
+}
+
+\date{}
+
+
+\begin{document}
+
+% TITLE
+\maketitle
+
+% INDEX
+% \tableofcontents
+
+% TASK 1
+\section{Task 1}
+For Task 1, I created a \texttt{C++} program that uses \texttt{PBKDF2} with \texttt{SHA1} to crack Ole's password.
+
+As it is possible to see from the code, the \texttt{pbkdf2} function takes as input the given salt and number of iterations, as well as an input password that is built bruteforcing characters from a list of possible ones (in this case, uppercase and lowercase letters of the alphabet).
+The result of the hashing is confronted with the given key: if there is a match, it means that the password is the one we were looking for; otherwise, another attempt needs to be made using a different combination of characters.
+
+In this case, I found that the password was \texttt{QwE}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/password-cracking.png}
+    \caption{Found password}
+    \label{fig:password-cracking}
+\end{figure}
+
+% TASK 2
+\section{Task 2}
+For Task 2, I created the web client and server using Vue.
+\texttt{PBKDF2} is used for hashing the password and for the authentication.
+The homepage presents the Login and Registration components, in which the input fields are validated and the password is hashed (client side) using the JavaScript \texttt{crypto-js} library.
+On the server side, Node.js \texttt{Crypto} library is used.
+
+Some screenshots of different scenarios are the following:
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.45 \textwidth}
+    \includegraphics[width=\textwidth]{img/registration-successful.png}
+    \caption{Successful registration}
+    \label{fig:registration-successful}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45 \textwidth}
+    \includegraphics[width=\textwidth]{img/login-successful.png}
+    \caption{Successful login}
+    \label{fig:login-successful}
+\end{subfigure}
+\caption{Successful login and registration}
+\label{fig:success}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.45 \textwidth}
+    \includegraphics[width=\textwidth]{img/wrong-username.png}
+    \caption{Attempt to login with wrong username}
+    \label{fig:wrong-username}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45 \textwidth}
+    \includegraphics[width=\textwidth]{img/wrong-password.png}
+    \caption{Attempt to login with wrong password}
+    \label{fig:wrong-password}
+\end{subfigure}
+\caption{Wrong credentials}
+\label{fig:wrong-credentials}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{img/empty-fields.png}
+    \caption{Attempt to login with empty fields and to register with already existing username}
+    \label{fig:empty-fields}
+\end{figure}
+
+
+
+
+\end{document}

@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/fragrimi/password-cracking/passwordcracking.cpp
+iomanip
+-
+iostream
+-
+openssl/evp.h
+-
+openssl/sha.h
+-
+sstream
+-
+string
+-
+
