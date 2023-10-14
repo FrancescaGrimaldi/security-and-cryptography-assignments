@@ -1,3 +1,6 @@
 [submodule "assignment 5/src"]
     path = "assignment 5/src"
     url = git@github.com:FrancescaGrimaldi/fuzzing.git
+[submodule "assignment 5/code/fuzzing"]
+	path = assignment 5/code/fuzzing
+	url = https://github.com/FrancescaGrimaldi/fuzzing.git
