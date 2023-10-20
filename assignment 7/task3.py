@@ -1,17 +1,20 @@
 import sys
 
+# prints the sequence of the function f(x) = (11*x-5)mod 29
 def print_sequence():
     norwegian_alphabet = "abcdefghijklmnopqrstuvwxyzæøå"
 
     for i in range(0, 29):
         print("f(", i, norwegian_alphabet[i], ") =", (11*i-5)%29, "which corresponds to letter", norwegian_alphabet[(11*i-5)%29])
 
+# prints the sequence of the inverse function f^-1(x) = (8*(x+5))mod 29
 def print_inverse_sequence():
     norwegian_alphabet = "abcdefghijklmnopqrstuvwxyzæøå"
 
     for i in range(0, 29):
         print("f^-1(", i, norwegian_alphabet[i], ") =", (8*(i+5))%29, "which corresponds to letter", norwegian_alphabet[(8*(i+5))%29])
 
+# encrypts a string using the function f(x) = (11*x-5)mod 29
 def encrypt(str):
     norwegian_alphabet = "abcdefghijklmnopqrstuvwxyzæøå"
     encrypted_string = ""
@@ -26,6 +29,7 @@ def encrypt(str):
 
     return encrypted_string
 
+# decrypts a string using the inverse function f^-1(x) = (8*(x+5))mod 29
 def decrypt(str):
     norwegian_alphabet = "abcdefghijklmnopqrstuvwxyzæøå"
     decrypted_string = ""

@@ -1,5 +1,6 @@
 import sys
 
+# encrypts a string using the Vigenere Cipher
 def encrypt(input, key):
     encrypted_string = ""
     norwegian_alphabet = "abcdefghijklmnopqrstuvwxyzæøå"
@@ -19,6 +20,7 @@ def encrypt(input, key):
     
     return encrypted_string
 
+# decrypts a string using the Vigenere Cipher
 def decrypt(input, key):
     decrypted_string = ""
     norwegian_alphabet = "abcdefghijklmnopqrstuvwxyzæøå"
@@ -33,10 +35,11 @@ def decrypt(input, key):
             key_pos += 1
             if key_pos == len(key):
                 key_pos = 0
-        #else:
-        #    decrypted_string += char
+        # else:
+        #     decrypted_string += char
     
     return decrypted_string
+
 
 def main():
     print("Welcome to the Vigenere Cipher program!")

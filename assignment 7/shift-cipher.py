@@ -1,6 +1,6 @@
 import sys
 
-# function that encrypts a string shifting letters by a given number of places (forwards)
+# encrypts a string shifting letters by a given number of places (forwards)
 def encrypt(input, shift):
     encrypted_string = ""
     norwegian_alphabet = "abcdefghijklmnopqrstuvwxyzæøå"
@@ -15,7 +15,7 @@ def encrypt(input, shift):
 
     return encrypted_string
 
-# function that decrypts a string shifting its letters by a given number of places (backwards)
+# decrypts a string shifting its letters by a given number of places (backwards)
 def decrypt(input, shift):
     decrypted_string = ""
     norwegian_alphabet = "abcdefghijklmnopqrstuvwxyzæøå"
@@ -25,18 +25,19 @@ def decrypt(input, shift):
     for char in input:
         if char in norwegian_alphabet:
             decrypted_string += norwegian_alphabet[(norwegian_alphabet.index(char) - shift) % len(norwegian_alphabet)]
-        #else:
-        #    decrypted_string += char
+        # else:
+        #     decrypted_string += char
 
     return decrypted_string
 
-# function that bruteforces the decryption of a string by trying all possible shifts
+# bruteforces the decryption of a string by trying all possible shifts
 def bruteforce(input):
     for i in range(1, 30):
         print("Attempt with shift " + str(i) + ": " + decrypt(input, i))
         # write to file
-        f = open("bruteforce.txt", "a")
-        f.write(decrypt(input, i) + "\n")
+        # f = open("bruteforce.txt", "a")
+        # f.write(decrypt(input, i) + "\n")
+
 
 def main():
     print("Welcome to the Shift Cipher program!")
