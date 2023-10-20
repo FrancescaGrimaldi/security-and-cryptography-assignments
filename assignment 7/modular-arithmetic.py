@@ -1,5 +1,4 @@
 import sys
-import math
 
 # returns the module of a number
 def calc_module(a, m):
@@ -45,7 +44,6 @@ def main():
     else:
         print("Exiting...")
         sys.exit()
-
 
 if __name__ == '__main__':
     main()
