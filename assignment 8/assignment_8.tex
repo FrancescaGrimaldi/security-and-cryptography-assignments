@@ -1,0 +1,189 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{titling}
+
+% Page size and margins
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{minted}
+
+% Header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % empties all fields
+\fancyhead[R]{Francesca Grimaldi}
+\fancyhead[L]{IDATT2503 - Exercise 8}
+
+% Images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{float}
+
+% Tables
+\usepackage{tabu}
+\usepackage{caption} 
+\captionsetup[table]{skip=2pt}
+\usepackage[table]{xcolor}
+\usepackage{array}
+
+% Lists
+\usepackage{listings}
+\usepackage{enumitem}
+\setlist{topsep=2pt, itemsep=2pt, partopsep=2pt, parsep=2pt}
+
+% renew/new command
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}
+}
+
+% Title and info
+\title{%
+    \huge Assignment 8}
+
+\subtitle{%
+    IDATT2503 - Security in programming and cryptography \\
+    Fall 2023
+    }
+
+\author{%
+  Francesca Grimaldi
+}
+
+\date{}
+
+
+\begin{document}
+
+% TITLE
+\maketitle
+
+% INDEX
+% \tableofcontents
+
+% TASK 1
+\section{Task 1 - AES a little history}
+
+\subsection{The evolutionary history of AES differs from that of DES. Briefly describe the differences of the AES history in comparison to DES.}
+The \textbf{Data Encryption Standard (DES)} is a symmetric-key block cipher that uses a 64 bits key: it encrypts data 64 bits at a time.
+It was the result of a research project set up by IBM in the late 60s which resulted in a cipher known as LUCIFER.
+When it was decided to commercialize it (in the early 70s), IBM introduced significant changes to the algorithm after receiving technical advice from the \textbf{National Security Agency (NSA)}.
+This new version was published as an official Federal Information Processing Standard (FIPS) for the United States in 1977, but it was severely criticized for two main reasons:
+\begin{itemize}
+    \item[1.] The algorithm takes a 64 bit key input, but 8 bits are used for parity checking and are immediately discarded. The actual key is 56-bits long and is considered too short.
+    \item[2.] It was thought that S-boxes had some secret trapdoor that could enable the NSA to decrypt messages outside the requirement for the key.
+\end{itemize}
+Because DES was starting to become vulnerable to brute-force attacks, a new algorithm was required.\\
+The \textbf{National Institute of Standards and Technology (NIST)} initiated a public, peer-reviewed competition to choose a new encryption standard. After a process that lasted from 1997 to 2000, the \textbf{Rijndael algorithm} was selected to become the \textbf{Advanced Encryption Standard (AES)}.
+Compared to its predecessor, this procedure was noticeably more transparent and open because NIST also asked for input from interested parties on how to choose the algorithm.\\
+AES is a symmetric-key block cipher as well, but it supports key lengths of 128, 192, and 256 bits, offering more flexibility and security against modern cryptographic attacks.
+
+\subsection{What is the name of the algorithm that is known as AES?}
+The original name of the algorithm that is now known as AES is \textit{Rijndael}.
+
+\subsection{Who developed this algorithm?}
+This algorithm was developed by \textit{Vincent Rijmen} and \textit{Joan Daemen}, two Belgian cryptographers.
+
+\subsection{Which block sizes and key lengths are supported by this algorithm?}
+Before being chosen as AES, the Rijndael algorithm supported all block lengths and key sizes multiples of 32 bits, between 128 and 256 bits.
+After the standardization process, the parameters were restricted to block size of 128 bits and key lengths of 128, 192 or 256 bits.
+
+% TASK 2
+\section{Task 2}
+The \texttt{task2.py} Python file contains the code used for One-time pad and Affine ciphers, whereas the website \href{https://www.cryptool.org/en/cto/aes-step-by-step}{cryptool.org} was used for AES.
+
+\subsection{Diffusion}
+The results of the encryption of both \texttt{x1} and \texttt{x2} using the key \texttt{K1} for different ciphers are the following:
+
+\begin{itemize}
+    \item [A)] \texttt{One-time pad (XOR)} \\
+    \texttt{x1 -> 0133456789abcdef0123456789abcdef} \\
+    \texttt{x2 -> 0103456789abcdef0123456789abcdef} \\
+    Two bits change between the plaintexts, and the ciphertexts also differ by two bits. The \textit{diffusion} is very low: there is much statistical correlation between plaintext and ciphertext.
+    
+    \item [B)] \texttt{Affine cipher} \\
+    \texttt{x1 -> e013456789abcdef0123456789abcdef} \\
+    \texttt{x2 -> bf03456789abcdef0123456789abcdef} \\
+    \textit{Diffusion} increases to a percentage of \texttt{5.46875\%} with the use of affine cipher, as 7 bits change. Although it is a better value than the previous one, it is still low.
+    
+    \item [C)] \texttt{One round of AES} \\
+    \texttt{x1 -> b3543dccec87235705c3aa65640fabdf} \\
+    \texttt{x2 -> 834c25e4ec87235705c3aa65640fabdf} \\
+    Here we have a diffusion of \texttt{6.25\%} as 8 bits out of 128 change with the changing of 2 bits between the plaintexts. The value is low.
+    
+    \item [D)] \texttt{Full AES} \\
+    \texttt{x1 -> 0694267ba398480c6b2b9f649be476cb} \\
+    \texttt{x2 -> 282f7b11019800f8a978c6f750827ab5} \\
+    The diffusion in this case is of \texttt{47.65625\%}. Approximately half of the bits of the ciphertext change, which means that the \textit{diffusion} is good.
+    
+\end{itemize}
+
+
+\subsection{Confusion}
+The results of the encryption of \texttt{x1} using both keys \texttt{K1} and {K2} for different ciphers are the following:
+
+\begin{itemize}
+    \item [A)] \texttt{One-time pad (XOR)} \\
+    \texttt{x1 using K1 -> 0133456789abcdef0123456789abcdef} \\
+    \texttt{x1 using K2 -> 1133456789abcdef0123456789abcdef} \\
+    Changing one bit in the key, only one bit changes between the ciphertexts, which is a very low value for the \textit{confusion} property.
+
+    \item [B)] \texttt{Affine cipher} \\
+    \texttt{x1 using K1 -> e013456789abcdef0123456789abcdef} \\
+    \texttt{x1 using K2 -> f013456789abcdef0123456789abcdef} \\
+    Also in this case, \textit{confusion} is very low because changing one bit in the key, only one bit changes between the two ciphertexts.
+    
+    \item [C)] \texttt{One round of AES} \\
+    \texttt{x1 using K1 -> b3543dccec87235705c3aa65640fabdf} \\
+    \texttt{x1 using K2 -> eafd942cfc87235715c3aa65740fabdf} \\
+    In this case, 18 bits change (in percentage \texttt{14.0625\%}). \textit{Confusion} is better compared to the previous ones but is still a moderate value.
+    
+    \item [D)] \texttt{Full AES} \\
+    \texttt{x1 using K1 -> 0694267ba398480c6b2b9f649be476cb} \\
+    \texttt{x1 using K2 -> 7af49a8defad94fa27cb03ac9f1c149a} \\
+    The number of different bits between the two ciphertexts is 61, so nearly a half. AES is a cipher with a good level of \textit{confusion}, in the sense that a change in the key affects the calculation of most of the ciphertext.
+    
+\end{itemize}
+
+% TASK 3
+\section{Task 3}
+The following subsections contain the outputs of the encryption and decryption of the given messages, obtained using the Caesar cipher at byte level (\texttt{E(x) = x + 3 mod 32}) and CBC mode using bitwise XOR, with initialization vector \texttt{IV = 13}. \\
+The code used for this task is available in the \texttt{caesar-cbc.py} Python file.
+
+\subsection{Encryption}
+\begin{itemize}
+    \item Encryption of \texttt{aaaaaa}: \texttt{oqsuwy}
+
+    \item Encryption of \texttt{dette er en test}: \texttt{llærzåælomfi h,m}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/encryption.png}
+    \caption{Output of the encryption}
+    \label{fig:encryption}
+\end{figure}
+
+
+\subsection{Decryption}
+\begin{itemize}
+    \item Decryption of \texttt{qvxæyy hkgdgk,,oqhdnc}: \texttt{cbc mode of operation}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/decryption.png}
+    \caption{Output of the decryption}
+    \label{fig:decryption}
+\end{figure}
+
+
+\end{document}
