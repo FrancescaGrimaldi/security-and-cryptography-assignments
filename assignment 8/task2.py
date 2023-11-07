@@ -14,6 +14,14 @@ def hex_to_bin(hex):
 def bin_to_hex(bin):
     return hex(int(bin, 2))[2:].zfill(32)
 
+# returns the decimal representation of a hex string
+def hex_to_dec(hex):
+    return int(hex, 16)
+
+# returns the hex representation of a decimal string
+def dec_to_hex(dec):
+    return hex(dec)[2:].zfill(32)
+
 # compares two binary strings and returns the number of different bits
 def compare_bits(bin1, bin2):
     diff = 0
@@ -27,7 +35,7 @@ def compare(bin1, bin2):
     differences = compare_bits(bin1, bin2)
     print("The number of different bits between the two ciphertexts is " + str(differences))
     percentage = differences / 128 * 100
-    print("In percentage, " + str(percentage) + "%")
+    print("In percentage, " + str(percentage) + "%\n")
 
 # encrypts a plaintext using a one time pad
 def one_time_pad(plaintext, key):
@@ -41,9 +49,18 @@ def one_time_pad(plaintext, key):
     return ciphertext
 
 # encrypts a plaintext using an affine cipher
-def affine_cipher(plaintext, key):
-    # TODO implement
-    raise NotImplementedError
+def affine_cipher(plaintext, a, b):
+    a = hex_to_dec(a)
+    b = hex_to_dec(b)
+
+    ciphertext = (a*hex_to_dec(plaintext) + b)%(2**128)
+
+    # print('a = ' + str(a)) 
+    # print('b = ' + str(b))
+    # print('plaintext = ', hex_to_dec(plaintext))
+    # print('ciphertext = ' + str(ciphertext))
+
+    return dec_to_hex(ciphertext)
 
 def main():
     print("PART A - Encrypting x1 and x2 using K1")
@@ -56,13 +73,13 @@ def main():
     # diffusion
     compare(en_x1, en_x2)
     
-    # print("A2. AFFINE CIPHER")
-    # en_x1 = affine_cipher(x1, K1)
-    # en_x2 = affine_cipher(x2, K1)
-    # print("x1 -> " + en_x1)
-    # print("x2 -> " + en_x2)
+    print("A2. AFFINE CIPHER")
+    en_x1 = affine_cipher(x1, K1, K1)
+    en_x2 = affine_cipher(x2, K1, K1)
+    print("x1 -> " + en_x1)
+    print("x2 -> " + en_x2)
     # diffusion
-    # compare()
+    compare(hex_to_bin(en_x1), hex_to_bin(en_x2))
     
     print("A3. ONE ROUND OF AES")
     # results obtained using cryptools.org
@@ -92,13 +109,13 @@ def main():
     # confusion
     compare(en_wk1, en_wk2)
     
-    # print("B2. AFFINE CIPHER")
-    # en_wk1 = affine_cipher(x1, K1)
-    # en_wk2 = affine_cipher(x1, K2)
-    # print("x1 using K1 -> " + en_wk1)
-    # print("x1 using K2 -> " + en_wk2)
+    print("B2. AFFINE CIPHER")
+    en_wk1 = affine_cipher(x1, K1, K1)
+    en_wk2 = affine_cipher(x1, K2, K2)
+    print("x1 using K1 -> " + en_wk1)
+    print("x1 using K2 -> " + en_wk2)
     # confusion
-    # compare()
+    compare(hex_to_bin(en_wk1), hex_to_bin(en_wk2))
 
     print("B3. ONE ROUND OF AES")
     # results obtained using cryptools.org
