@@ -22,6 +22,10 @@ def hex_to_dec(hex):
 def dec_to_hex(dec):
     return hex(dec)[2:].zfill(32)
 
+# divides a hex string into half and returns the two halves
+def divide_hex(hex):
+    return hex[:16], hex[16:]
+
 # compares two binary strings and returns the number of different bits
 def compare_bits(bin1, bin2):
     diff = 0
@@ -74,8 +78,9 @@ def main():
     compare(en_x1, en_x2)
     
     print("A2. AFFINE CIPHER")
-    en_x1 = affine_cipher(x1, K1, K1)
-    en_x2 = affine_cipher(x2, K1, K1)
+    h1_k, h2_k = divide_hex(K1)     # first half of K1 = a, second half of K1 = b
+    en_x1 = affine_cipher(x1, h1_k, h2_k)
+    en_x2 = affine_cipher(x2, h1_k, h2_k)
     print("x1 -> " + en_x1)
     print("x2 -> " + en_x2)
     # diffusion
