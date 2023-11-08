@@ -110,9 +110,9 @@ The results of the encryption of both \texttt{x1} and \texttt{x2} using the key 
     Two bits change between the plaintexts, and the ciphertexts also differ by two bits. The \textit{diffusion} is very low: there is much statistical correlation between plaintext and ciphertext.
     
     \item [B)] \texttt{Affine cipher} \\
-    \texttt{x1 -> e013456789abcdef0123456789abcdef} \\
-    \texttt{x2 -> bf03456789abcdef0123456789abcdef} \\
-    \textit{Diffusion} increases to a percentage of \texttt{5.46875\%} with the use of affine cipher, as 7 bits change. Although it is a better value than the previous one, it is still low.
+    \texttt{x1 -> def00000000000000123456789abcdef} \\
+    \texttt{x2 -> bde00000000000000123456789abcdef} \\
+    \textit{Diffusion} increases to a percentage of \texttt{3.90625\%} with the use of affine cipher, as 5 bits change. Although it is a better value than the previous one, it is still low.
     
     \item [C)] \texttt{One round of AES} \\
     \texttt{x1 -> b3543dccec87235705c3aa65640fabdf} \\
