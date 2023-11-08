@@ -18,7 +18,7 @@ def bin_to_hex(bin):
 def hex_to_dec(hex):
     return int(hex, 16)
 
-# returns the hex representation of a decimal string
+# returns the hex representation of a decimal number
 def dec_to_hex(dec):
     return hex(dec)[2:].zfill(32)
 
@@ -67,7 +67,7 @@ def affine_cipher(plaintext, a, b):
     return dec_to_hex(ciphertext)
 
 def main():
-    print("PART A - Encrypting x1 and x2 using K1")
+    print("*** PART A - Encrypting x1 and x2 using K1 ***")
     
     print("A1. ONE TIME PAD")
     en_x1 = one_time_pad(x1, K1)
@@ -104,7 +104,7 @@ def main():
     # diffusion
     compare(hex_to_bin(en_x1), hex_to_bin(en_x2))
 
-    print("PART B - Encrypting x1 using K1 and K2")
+    print("*** PART B - Encrypting x1 using K1 and K2 ***")
 
     print("B1. ONE TIME PAD")
     en_wk1 = one_time_pad(x1, K1)
