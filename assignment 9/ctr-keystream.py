@@ -60,16 +60,22 @@ def ctr_keystream(nonce):
     for counter in range(0, 600):
         block = combine(bin_to_dec(nonce), counter)
         substitution = lookup(block)
+        
+        # check if keystream repeats itself
         if substitution in keystream:
             found = True
+            
+            # check that every block actually repeats itself
             for counter2 in range(counter, counter*2):
                 block2 = combine(bin_to_dec(nonce), counter2)
                 substitution2 = lookup(block2)
                 if substitution2 not in keystream:
                     found = False
+            
             if found:
                 print("Period: " + str(counter))
                 break
+
         keystream += substitution
     return keystream
 
