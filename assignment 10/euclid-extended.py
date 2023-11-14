@@ -11,7 +11,8 @@ def euclid_ext(a, n):
         (r, newr) = (newr, r - quotient * newr)
 
     if r > 1:
-        return "a is not invertible"
+        return "The number a does not have a multiplicative inverse mod n"
+    
     if t < 0:
         t = t + n
 
