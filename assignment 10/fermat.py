@@ -17,14 +17,16 @@ def fermat_factorization(n):
         step += 1
 
     b = math.sqrt(b2)
-    p = a + b
-    q = a - b
+    p = a - b
+    q = a + b
     print("Found at step", step)
 
     return int(p), int(q)
 
 def main():
+    # initialize parameters
     n = 1829
+    
     print("Computing the factors of '" + str(n) + "' using Fermat's factorization algorithm...")
     print(str(fermat_factorization(n)))
 

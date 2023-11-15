@@ -30,18 +30,18 @@ def main():
     d = 3
     message = "111"
 
-    # retrieve the powers of 2 that add up to e to efficiently compute the encryption of the message
+    # encryption
     print("Encrypting the message '" + message + "' with RSA using repeated squaring... ")
-    powers = repeated_squaring(e)
+    powers = repeated_squaring(e)   # retrieve the powers of 2 that add up to e to efficiently compute the encryption of the message
     print("The powers of 2 that add up to " + str(e) + " are: " + str(powers))
     message = bin_to_dec("111")
     encrypted_message = power_rep_sqr(message, powers, n)
     print("Decimal value: " + str(encrypted_message))
     print("Binary value: " + str(dec_to_bin(encrypted_message)) + "\n")
 
-    # retrieve the powers of 2 that add up to d to efficiently compute the decryption of the message
+    # decryption (verification)
     print("Decrypting the message '" + str(encrypted_message) + "' with RSA using repeated squaring... ")
-    powers = repeated_squaring(d)
+    powers = repeated_squaring(d)   # retrieve the powers of 2 that add up to d to efficiently compute the decryption of the message
     print("The powers of 2 that add up to " + str(d) + " are: " + str(powers))
     decrypted_message = power_rep_sqr(encrypted_message, powers, n)
     print("Decimal value: " + str(decrypted_message))
